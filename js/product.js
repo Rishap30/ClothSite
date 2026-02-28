@@ -15,15 +15,21 @@ const products = [
   {
     id: 3,
     title: "Casual Jeans",
-    description: "Slim fit jeans with stretch fabric.",
+    description: "Best Slim fit jeans with stretch fabric.",
     price: 1299
+  },
+    {
+    id: 4,
+    title: "Formal Shirt",
+    description: "Elegant formal shirt for business meetings.",
+    price: 1599
   }
 ];
 
 // Select container
 const container = document.getElementById("productContainer");
 
-// Generate Cards
+// products
 products.forEach(product => {
   const card = document.createElement("div");
   card.className = "bg-white shadow-md rounded-lg overflow-hidden";
@@ -42,11 +48,11 @@ products.forEach(product => {
 
     <div class="p-4">
       <h3 class="text-lg font-semibold mb-2">${product.title}</h3>
-      <p class="text-gray-700 text-sm mb-3">${product.description}</p>
+      <p class="text-gray-700 text-md mb-3">${product.description}</p>
       <p class="text-purple-600 font-bold mb-4">₹${product.price}</p>
 
       <div class="flex gap-3">
-        <button class="flex-1 px-3 py-2 text-sm bg-purple-500 text-white rounded hover:bg-purple-600 transition">
+        <button class="flex-1 px-2 py-2 text-sm bg-purple-500 text-white rounded hover:bg-purple-600 transition">
           Shop Now
         </button>
         <button class="flex-1 px-3 py-2 text-sm border border-gray-400 text-gray-600 rounded hover:bg-gray-100 transition">
