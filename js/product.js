@@ -1,28 +1,31 @@
-// Demo Product Data
 const products = [
   {
     id: 1,
     title: "Premium T-Shirt",
     description: "Comfortable cotton t-shirt for daily wear.",
-    price: 499
+    price: 499,
+    image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab"
   },
   {
     id: 2,
     title: "Stylish Hoodie",
     description: "Warm hoodie perfect for winter season.",
-    price: 999
+    price: 999,
+    image: "https://images.unsplash.com/photo-1578587018452-892bacefd3f2"
   },
   {
     id: 3,
     title: "Casual Jeans",
     description: "Best Slim fit jeans with stretch fabric.",
-    price: 1299
+    price: 1299,
+    image: "https://images.unsplash.com/photo-1542272604-787c3835535d"
   },
-    {
+  {
     id: 4,
     title: "Formal Shirt",
     description: "Elegant formal shirt for business meetings.",
-    price: 1599
+    price: 1599,
+    image: "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf"
   }
 ];
 
@@ -35,16 +38,9 @@ products.forEach(product => {
   card.className = "bg-white shadow-md rounded-lg overflow-hidden";
 
   card.innerHTML = `
-    <svg class="w-full h-56 bg-gray-600"
-      xmlns="http://www.w3.org/2000/svg"
-      role="img"
-      preserveAspectRatio="xMidYMid slice">
-
-      <rect width="100%" height="100%" fill="#4B5563"></rect>
-      <text x="50%" y="50%" fill="#E5E7EB" dy=".3em" text-anchor="middle">
-        ${product.title}
-      </text>
-    </svg>
+    <img src="${product.image}" 
+       alt="${product.title}" 
+       class="w-full h-56 object-cover">
 
     <div class="p-4">
       <h3 class="text-lg font-semibold mb-2">${product.title}</h3>
