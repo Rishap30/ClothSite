@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 const SignUp = () => {
   return (
 <div className="flex justify-center items-center min-h-screen bg-pink-100">
-    
+    Sign Up
 </div>
   );
 };
