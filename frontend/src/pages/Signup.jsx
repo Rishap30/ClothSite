@@ -1,5 +1,7 @@
+import { useNavigate } from 'react-router-dom'
 import React, { useState } from 'react'
 import { Button } from "@/components/ui/button"
+import axios from 'axios'
 import {
     Card,
     CardAction,
@@ -13,13 +15,49 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { EyeOff } from 'lucide-react'
 import { Eye } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
+import { toast } from 'sonner'
 
 export const Signup = () => {
     const [showPassword, setShowPassword] = useState(false);
-    const [loading, setLoading] = useState(false) 
+    const [loading, setLoading] = useState(false);
+    const Navigate = useNavigate();
+
+    const [formData, setformData] = useState({
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: ""
+    })
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setformData((prev) => ({
+            ...prev,
+            [name]: value
+        }))
+    }
+
+    const submitHandle = async(e)=>{
+        e.preventDefault()
+        console.log(formData)
+        try {
+            const res = await axios.post("http://localhost:8000/api/v1/user/register", formData,{
+                headers:{
+                    'Content-Type':'application/json'
+                }
+            })
+            if(res.data.success){
+                Navigate('/verify')
+                toast.success(res.data.message)
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
-        <div className='flex justify-center items-center min-h-screen bg-green-100'>
+        <div className='flex justify-center items-center min-h-screen bg-gray-00'>
             <Card className="w-full max-w-sm">
                 <CardHeader>
                     <CardTitle>Create your account</CardTitle>
@@ -28,16 +66,15 @@ export const Signup = () => {
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <form>
                         <div className="flex flex-col gap-3">
                             <div className="grid grid-cols-2 gap-2">
                                 <div className='grid gap-2'>
                                     <Label htmlFor="firstName">First Name</Label>
-                                    <Input id="firstName" name='firstName' type="text" placeholder='John' required />
+                                    <Input id="firstName" name='firstName' type="text" placeholder='John' required onChange={handleChange} value={handleChange.firstName} />
                                 </div>
                                 <div className='grid gap-2'>
                                     <Label htmlFor="lastName">Last Name</Label>
-                                    <Input id="lastname" name='lastname' type="text" placeholder='Doe' required />
+                                    <Input id="lastName" name='lastName' type="text" placeholder='Doe' required onChange={handleChange} value={handleChange.lastName} />
                                 </div>
                             </div>
                             <div className="grid gap-2">
@@ -48,12 +85,13 @@ export const Signup = () => {
                                     type="email"
                                     placeholder="m@example.com"
                                     required
+                                    onChange={handleChange} value={handleChange.email}
                                 />
                             </div>
 
                             <div className="grid gap-2">
                                 <div className="flex items-center">
-                                    <Label htmlFor="password">Password</Label>
+                                    <Label htmlFor="password" onChange={handleChange} value={handleChange.password} >Password</Label>
                                 </div>
                                 <div className="relative">
                                     <Input id="password" nam="password" placeholder='Create a password'
@@ -66,10 +104,9 @@ export const Signup = () => {
                                 </div>
                             </div>
                         </div>
-                    </form>
                 </CardContent>
                 <CardFooter className="flex-col gap-2">
-                    <Button type="submit" className="w-full">
+                    <Button onClick={submitHandle} type="submit" className="w-full cursor-pointer bg-pink-600 hover:bg-pink-500">
                         Signup
                     </Button>
                     <p className='text-gray-700 text-sm'>Already have an account? <Link to={'/login'} className='hover:underline cursor-pointer text-pink-800'>Login</Link></p>
