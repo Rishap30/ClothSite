@@ -1,7 +1,6 @@
-import { User } from "../models/User.js";
-import bcrypt from "bcryptjs";
-
-// CREATE
+import User from "../models/User.js";   // ✅ correctimport bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import { verifyEmail } from "../emailVerify/verifyEmail.js";
 export const register = async (req, res) => {
   try {
     const {firstName, lastName, email, password} = req.body;
@@ -20,6 +19,12 @@ export const register = async (req, res) => {
       email,
       password:hashedPassword
     })
+
+    const jwt = jwt.sign({id:newUser.id}, process.env.SECRET_KEY, {expiresIn : '10m'})
+    verifyEmail(tokden, email)
+
+    newUser.token = token
+
     await newUser.save()
     
     return res.status(201).json({
