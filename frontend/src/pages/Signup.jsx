@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { EyeOff } from 'lucide-react'
+import { EyeOff, Loader2 } from 'lucide-react'
 import { Eye } from 'lucide-react'
 import { Link, Navigate } from 'react-router-dom'
 import { toast } from 'sonner'
@@ -38,21 +38,25 @@ export const Signup = () => {
         }))
     }
 
-    const submitHandle = async(e)=>{
+    const submitHandle = async (e) => {
         e.preventDefault()
         console.log(formData)
         try {
-            const res = await axios.post("http://localhost:8000/api/v1/user/register", formData,{
-                headers:{
-                    'Content-Type':'application/json'
+            setLoading(true)
+            const res = await axios.post("http://localhost:8000/api/v1/user/register", formData, {
+                headers: {
+                    'Content-Type': 'application/json'
                 }
             })
-            if(res.data.success){
+            if (res.data.success) {
                 Navigate('/verify')
                 toast.success(res.data.message)
             }
         } catch (error) {
             console.log(error);
+            toast.error(error.response?.data?.message || "Something went wrong")
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -66,48 +70,68 @@ export const Signup = () => {
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
-                        <div className="flex flex-col gap-3">
-                            <div className="grid grid-cols-2 gap-2">
-                                <div className='grid gap-2'>
-                                    <Label htmlFor="firstName">First Name</Label>
-                                    <Input id="firstName" name='firstName' type="text" placeholder='John' required onChange={handleChange} value={handleChange.firstName} />
-                                </div>
-                                <div className='grid gap-2'>
-                                    <Label htmlFor="lastName">Last Name</Label>
-                                    <Input id="lastName" name='lastName' type="text" placeholder='Doe' required onChange={handleChange} value={handleChange.lastName} />
-                                </div>
-                            </div>
-                            <div className="grid gap-2">
-                                <Label htmlFor="email">Email</Label>
+                    <div className="flex flex-col gap-3">
+                        <div className="grid grid-cols-2 gap-2">
+                            <div className='grid gap-2'>
+                                <Label htmlFor="firstName">First Name</Label>
                                 <Input
-                                    id="email"
-                                    name="email"
-                                    type="email"
-                                    placeholder="m@example.com"
+                                    id="firstName"
+                                    name="firstName"
+                                    type="text"
+                                    placeholder="John"
                                     required
-                                    onChange={handleChange} value={handleChange.email}
-                                />
-                            </div>
+                                    onChange={handleChange}
+                                    value={formData.firstName}
+                                />                                </div>
+                            <div className='grid gap-2'>
+                                <Label htmlFor="lastName">Last Name</Label>
+                                <Input
+                                    id="lastName"
+                                    name="lastName"
+                                    type="text"
+                                    placeholder="Doe"
+                                    required
+                                    onChange={handleChange}
+                                    value={formData.lastName}
+                                />                                </div>
+                        </div>
+                        <div className="grid gap-2">
+                            <Label htmlFor="email">Email</Label>
+                            <Input
+                                id="email"
+                                name="email"
+                                type="email"
+                                placeholder="m@example.com"
+                                required
+                                onChange={handleChange}
+                                value={formData.email}
+                            />
+                        </div>
 
-                            <div className="grid gap-2">
-                                <div className="flex items-center">
-                                    <Label htmlFor="password" onChange={handleChange} value={handleChange.password} >Password</Label>
-                                </div>
-                                <div className="relative">
-                                    <Input id="password" nam="password" placeholder='Create a password'
-                                        type={showPassword ? 'text' : 'password'}
-                                    />
-                                    {
-                                        showPassword ? <EyeOff onClick={() => setShowPassword(false)} className='w-5 h-5  text-gray-700 absolute right-5 bottom-2' /> :
-                                            <Eye onClick={() => setShowPassword(true)} className='w-5 h-5  text-grey-700 absolute right-5 bottom-2' />
-                                    }
-                                </div>
+                        <div className="grid gap-2">
+                            <div className="flex items-center">
+                                <Label htmlFor="password" onChange={handleChange} value={handleChange.password} >Password</Label>
+                            </div>
+                            <div className="relative">
+                                <Input
+                                    id="password"
+                                    name="password"   // ✅ FIXED
+                                    placeholder="Create a password"
+                                    type={showPassword ? "text" : "password"}
+                                    required
+                                    onChange={handleChange}
+                                    value={formData.password}
+                                />                                    {
+                                    showPassword ? <EyeOff onClick={() => setShowPassword(false)} className='w-5 h-5  text-gray-700 absolute right-5 bottom-2' /> :
+                                        <Eye onClick={() => setShowPassword(true)} className='w-5 h-5  text-grey-700 absolute right-5 bottom-2' />
+                                }
                             </div>
                         </div>
+                    </div>
                 </CardContent>
                 <CardFooter className="flex-col gap-2">
                     <Button onClick={submitHandle} type="submit" className="w-full cursor-pointer bg-pink-600 hover:bg-pink-500">
-                        Signup
+                        {loading ? <><Loader2 className='h-4 w-4 animate-spin mr-2'/>Please wait</>:"Signup"}
                     </Button>
                     <p className='text-gray-700 text-sm'>Already have an account? <Link to={'/login'} className='hover:underline cursor-pointer text-pink-800'>Login</Link></p>
                 </CardFooter>
