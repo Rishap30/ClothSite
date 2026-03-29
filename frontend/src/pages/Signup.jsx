@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button"
 import axios from 'axios'
 import {
     Card,
-    CardAction,
     CardContent,
     CardDescription,
     CardFooter,
@@ -13,12 +12,11 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { EyeOff, Loader2 } from 'lucide-react'
-import { Eye } from 'lucide-react'
+import {Eye, EyeOff, Loader2 } from 'lucide-react'
 import { Link, Navigate } from 'react-router-dom'
 import { toast } from 'sonner'
 
-export const Signup = () => {
+const Signup = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
     const Navigate = useNavigate();
@@ -131,7 +129,7 @@ export const Signup = () => {
                 </CardContent>
                 <CardFooter className="flex-col gap-2">
                     <Button onClick={submitHandle} type="submit" className="w-full cursor-pointer bg-pink-600 hover:bg-pink-500">
-                        {loading ? <><Loader2 className='h-4 w-4 animate-spin mr-2'/>Please wait</>:"Signup"}
+                        {loading ? <><Loader2 className='h-4 w-4 animate-spin mr-2' />Please wait</> : "Signup"}
                     </Button>
                     <p className='text-gray-700 text-sm'>Already have an account? <Link to={'/login'} className='hover:underline cursor-pointer text-pink-800'>Login</Link></p>
                 </CardFooter>
@@ -140,4 +138,4 @@ export const Signup = () => {
     )
 }
 
-export default Signup
+export default Signup;

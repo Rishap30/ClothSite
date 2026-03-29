@@ -1,35 +1,39 @@
-import React, { Component } from 'react'
-import { Button } from './Components/ui/button'
+import React from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Signup from './pages/Signup'
-import Navbar from './Components/Navbar'
+import Navbar from './components/Navbar'
 import Home from './pages/Home'
 import Login from './pages/Login'
 import Verify from './pages/Verify'
 import VerifyEmail from './pages/VerifyEmail'
+
 const router = createBrowserRouter([
   {
-    path:'/',
-    element:<><Navbar/><Home/></>
+    path: '/',
+    element: <><Navbar /><Home /></>
   },
   {
-    path:'/signup',
-    element:<><Signup/></>
+    path: '/signup',
+    element: <><Signup /></>
   },
   {
-    path:'/verify',
-    element:<><Verify/></>
+    path: '/login',
+    element: <><Login /></>
   },
-    {
-    path:'/verify/token',
-    element:<><VerifyEmail/></>
+  {
+    path: '/verify',
+    element: <><Verify /></>
+  },
+  {
+    path: '/verify/:token',
+    element: <><VerifyEmail /></>
   }
 ])
 
- const App = () => {
+const App = () => {
   return (
     <>
-    <RouterProvider router={router}/>
+      <RouterProvider router={router} />
     </>
   )
 }
