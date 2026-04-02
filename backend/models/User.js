@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema({
   profilePublicPic:{ type:String, default:"" },
   email:{ type:String, unique:true },
   password:{ type:String, required:true },
-  role:{ type:String, Enum:["user","admin"],default:"user" },
+  role:{ type:String, enum:["user","admin"],default:"user" },
   token:{ type:String, default:null },
   isVerified:{ type:Boolean, default:false },
   isLoggedIn:{ type:Boolean, required:false },

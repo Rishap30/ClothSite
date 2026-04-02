@@ -15,12 +15,15 @@ import { Label } from "@/components/ui/label"
 import {Eye, EyeOff, Loader2 } from 'lucide-react'
 import { Link, Navigate } from 'react-router-dom'
 import { toast } from 'sonner'
+import { useDispatch } from 'react-redux'
+import { setUser } from '@/redux/userSlice'
 
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
-    const Navigate = useNavigate();
+    const navigate = useNavigate();
+    const dispatch = useDispatch()
 
     const [formData, setformData] = useState({
         email: "",
@@ -46,7 +49,9 @@ const Login = () => {
                 }
             })
             if (res.data.success) {
-                Navigate('/')
+                navigate('/')
+                dispatch(setUser(res.data.user))
+                localStorage.setItem("accessToken", res.data.token)
                 toast.success(res.data.message)
             }
         } catch (error) {
@@ -128,7 +133,7 @@ const Login = () => {
                 </CardContent>
                 <CardFooter className="flex-col gap-2">
                     <Button onClick={submitHandle} type="submit" className="w-full cursor-pointer bg-pink-600 hover:bg-pink-500">
-                        {loading ? <><Loader2 className='h-4 w-4 animate-spin mr-2' />Please wait</> : "Signup"}
+                        {loading ? <><Loader2 className='h-4 w-4 animate-spin mr-2' />Please wait</> : "Login"}
                     </Button>
                     <p className='text-gray-700 text-sm'>Don't have an account? <Link to={'/signup'} className='hover:underline cursor-pointer text-pink-800'>Signup</Link></p>
                 </CardFooter>

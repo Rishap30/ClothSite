@@ -19,7 +19,7 @@ import { toast } from 'sonner'
 const Signup = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
-    const Navigate = useNavigate();
+    const navigate = useNavigate();
 
     const [formData, setformData] = useState({
         firstName: "",
@@ -47,7 +47,7 @@ const Signup = () => {
                 }
             })
             if (res.data.success) {
-                Navigate('/verify')
+                navigate('/verify')
                 toast.success(res.data.message)
             }
         } catch (error) {
